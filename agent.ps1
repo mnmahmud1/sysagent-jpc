@@ -110,6 +110,50 @@ wifi_ssid = $ssid
 
 }
 
+# ================================
+# SOFTWARE LIST
+# ================================
+
+$paths = @(
+"HKLM:\Software\Microsoft\Windows\CurrentVersion\Uninstall\*",
+"HKLM:\Software\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*"
+)
+
+$software = foreach ($path in $paths) {
+
+Get-ItemProperty $path -ErrorAction SilentlyContinue |
+Where {$_.DisplayName} |
+ForEach-Object {
+
+$size = ""
+
+if ($_.EstimatedSize) {
+$size = "{0:N1} MB" -f ($_.EstimatedSize/1024)
+}
+
+$installDate = ""
+
+if ($_.InstallDate) {
+try{
+$installDate = [datetime]::ParseExact($_.InstallDate,'yyyyMMdd',$null).ToString("yyyy-MM-dd")
+}catch{}
+}
+
+[PSCustomObject]@{
+
+Name = $_.DisplayName
+Publisher = $_.Publisher
+InstalledOn = $installDate
+Size = $size
+Version = $_.DisplayVersion
+
+}
+
+}
+
+}
+
+
 
 # ================================
 # BUILD JSON

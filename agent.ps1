@@ -11,7 +11,7 @@ New-Item -ItemType Directory -Force -Path $log | Out-Null
 # ================================
 
 $user = "mahmud"
-$pass = "APP_PASSWORD_NEXTCLOUD"
+$pass = "e9fkw-TQYgz-wdALr-SPFrA-GJWQs"
 
 $securePass = ConvertTo-SecureString $pass -AsPlainText -Force
 $cred = New-Object System.Management.Automation.PSCredential ($user,$securePass)

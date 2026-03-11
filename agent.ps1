@@ -7,7 +7,7 @@ New-Item -ItemType Directory -Force -Path $log | Out-Null
 
 
 # ================================
-# NEXTCLOUD CREDENTIAL (SILENT)
+# NEXTCLOUD CREDENTIAL (SILENT) SECRET
 # ================================
 
 $user = "mahmud"

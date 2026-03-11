@@ -10,8 +10,12 @@ New-Item -ItemType Directory -Force -Path $log | Out-Null
 # NEXTCLOUD CREDENTIAL (SILENT) SECRET
 # ================================
 
-$user = "mahmud"
-$pass = "e9fkw-TQYgz-wdALr-SPFrA-GJWQs"
+$credPath = "C:\ProgramData\SysAgent\cred.json"
+
+$credData = Get-Content $credPath | ConvertFrom-Json
+
+$user = $credData.username
+$pass = $credData.password
 
 $securePass = ConvertTo-SecureString $pass -AsPlainText -Force
 $cred = New-Object System.Management.Automation.PSCredential ($user,$securePass)

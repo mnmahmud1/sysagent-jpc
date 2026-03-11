@@ -209,7 +209,7 @@ $internet = Test-Connection 8.8.8.8 -Count 1 -Quiet
 
 if ($internet) {
 
-$nextcloud = "https://cloud.jpc.co.id/remote.php/dav/files/mahmud/INV-SOFTWARE"
+$nextcloud = "https://cloud.jpc.co.id/remote.php/dav/files/sysmonitoring/INV-SOFTWARE-MONITORING"
 
 Get-ChildItem $queue | ForEach-Object {
 

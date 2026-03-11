@@ -10,7 +10,7 @@ New-Item -ItemType Directory -Force -Path $log | Out-Null
 # NEXTCLOUD CREDENTIAL (SILENT) SECRET
 # ================================
 
-$credPath = "C:\ProgramData\SysAgent\cred.json"
+$credPath = "$base\cred.json"
 
 $credData = Get-Content $credPath | ConvertFrom-Json
 

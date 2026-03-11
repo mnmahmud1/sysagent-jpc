@@ -7,7 +7,7 @@ New-Item -ItemType Directory -Force -Path $log | Out-Null
 
 
 # ================================
-# NEXTCLOUD CREDENTIAL
+# NEXTCLOUD CREDENTIAL (SILENT)
 # ================================
 
 $user = "mahmud"
@@ -35,7 +35,7 @@ $cpuLoad = [math]::Round($cpuLoad,2)
 
 
 # ================================
-# DISK INFO
+# DISK INFORMATION
 # ================================
 
 $disks = @()
@@ -79,13 +79,21 @@ $dhcp = (Get-NetIPInterface -InterfaceIndex $adapter.ifIndex -ErrorAction Silent
 
 $ssid = ""
 
-if ($adapter.InterfaceDescription -match "Wireless|Wi-Fi") {
+if ($adapter.InterfaceDescription -match "Wireless|Wi-Fi|802.11") {
 
 try {
 
 $ssid = (netsh wlan show interfaces | Select-String "SSID" | Select -First 1).ToString().Split(":")[1].Trim()
 
 } catch {}
+
+}
+
+$interfacesubnet = $null
+
+if ($ipInfo) {
+
+$interfacesubnet = $ipInfo.PrefixLength
 
 }
 
@@ -98,7 +106,7 @@ status = $adapter.Status
 link_speed = $adapter.LinkSpeed
 
 ip = $ipInfo.IPAddress
-subnet_prefix = $ipInfo.PrefixLength
+subnet_prefix = $interfacesubnet
 
 gateway = $gateway
 dns_servers = $dns
@@ -109,6 +117,7 @@ wifi_ssid = $ssid
 }
 
 }
+
 
 # ================================
 # SOFTWARE LIST
@@ -154,7 +163,6 @@ Version = $_.DisplayVersion
 }
 
 
-
 # ================================
 # BUILD JSON
 # ================================
@@ -176,6 +184,8 @@ disks = $disks
 
 network_interfaces = $networkInterfaces
 
+software = $software
+
 timestamp = (Get-Date)
 
 }
@@ -188,7 +198,7 @@ $json | Out-File $file -Encoding UTF8
 
 
 # ================================
-# UPLOAD NEXTCLOUD
+# CHECK INTERNET
 # ================================
 
 $internet = Test-Connection 8.8.8.8 -Count 1 -Quiet
